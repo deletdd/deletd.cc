@@ -88,8 +88,8 @@ Discord:  deletd`;
             return `┌────────┐     user@deletdcc
 │           │     -------------
 │       JS  │     OS: JavaScript
-└────────┘     Terminal: deletd.cc
-                   Uptime: ${Math.floor(performance.now() / 1000)}s`;
+└────────┘     Uptime: ${Math.floor(performance.now() / 1000)}s
+                   Terminal: deletd.cc`;
         }
     }
 };
