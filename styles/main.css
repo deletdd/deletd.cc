@@ -19,14 +19,14 @@ html {
 }
 
 body {
-    font-family: 'VT323', monospace;
+    /* Use Courier Prime, fallback to system monospace fonts */
+    font-family: 'Courier Prime', 'Courier New', 'Courier', monospace;
     background: var(--bg-dark);
     color: var(--amber);
     overflow: hidden;
     height: 100vh;
     width: 100vw;
-    /* Force consistent spacing across platforms */
-    letter-spacing: 0.05em;
+    /* Remove letter-spacing override */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -46,12 +46,11 @@ body {
     padding: 20px;
     overflow-y: scroll;
     overflow-x: hidden;
-    font-size: 20px;
+    font-size: 14px;
     line-height: 1.6;
     white-space: pre-wrap;
     scroll-behavior: auto;
     -webkit-overflow-scrolling: auto;
-    /* Ensure consistent rendering */
     font-variant-ligatures: none;
 }
 
@@ -131,8 +130,8 @@ body {
     border: none;
     outline: none;
     color: var(--amber);
-    font-family: 'VT323', monospace;
-    font-size: 20px;
+    font-family: 'Courier Prime', 'Courier New', 'Courier', monospace;
+    font-size: 18px;
     caret-color: var(--amber);
 }
 
@@ -170,7 +169,7 @@ body {
 .ascii-art {
     color: var(--amber-dim);
     line-height: 1.2;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 /* Text selection styling */
