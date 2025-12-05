@@ -120,11 +120,11 @@ Discord:  deletd`;
         execute: (args, terminal) => {
             const user = terminal.isRoot ? 'root@deletdcc' : 'user@deletdcc';
             return `
-┌────────┐     ${user}
-│           │     -------------
-│       JS  │     OS: JavaScript
-└────────┘     Uptime: ${Math.floor(performance.now() / 1000)}s
-                   Terminal: deletd.cc`;
+┌──────┐     ${user}
+│        │     -------------
+│    JS  │     OS: JavaScript
+└──────┘     Uptime: ${Math.floor(performance.now() / 1000)}s
+                Terminal: deletd.cc`;
         }
     },
     
