@@ -51,9 +51,10 @@ Root commands:
     },
     
     'ls projects/': {
-        description: 'List GitHub repositories',
+        description: 'List projects',
         execute: () => {
-            return `deletd.cc/
+            return `deletd.cc
+Venture MC (mc-venture.com)
 
 Visit: github.com/deletdd`;
         }
@@ -76,7 +77,7 @@ Visit: github.com/deletdd`;
 Languages:       JavaScript, Python, HTML/CSS, Java
 Frameworks:      React, Node.js
 Tools:           Git, Docker
-Specialties:     Web Development, CLI Tools, PaperMC Plugins`;
+Specialties:     Web Development, PaperMC Plugins`;
         }
     },
     
