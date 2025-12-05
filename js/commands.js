@@ -5,7 +5,7 @@ const COMMANDS = {
         execute: () => {
             return `Available commands:
   help             - Show this help message
-  ls               - List files and directories
+  ls [dir]         - List files and directories
   cat [file]       - Display file contents
   clear            - Clear the terminal
   neofetch         - Display system information
@@ -25,7 +25,7 @@ const COMMANDS = {
     'ls projects/': {
         description: 'List GitHub repositories',
         execute: () => {
-            return `deletd.cc/       [Add your other repos here]
+            return `deletd.cc/
 
 Visit: github.com/deletdd`;
         }
@@ -147,6 +147,23 @@ function handleCat(args) {
     return `cat: ${filename}: No such file or directory`;
 }
 
+// Ls command handler
+function handleLs(args) {
+    // No arguments - list current directory
+    if (args.length === 0) {
+        return COMMANDS['ls'].execute();
+    }
+    
+    const directory = args[0];
+    const lsCommand = `ls ${directory}`;
+    
+    if (COMMANDS[lsCommand]) {
+        return COMMANDS[lsCommand].execute();
+    }
+    
+    return `ls: cannot access '${directory}': No such file or directory`;
+}
+
 // Process command
 function processCommand(input) {
     const trimmed = input.trim();
@@ -159,12 +176,17 @@ function processCommand(input) {
         return handleCat(args);
     }
     
+    // Handle ls separately
+    if (command === 'ls') {
+        return handleLs(args);
+    }
+    
     // Handle echo
     if (command === 'echo') {
         return handleEcho(args);
     }
     
-    // Check exact match first (for ls projects/)
+    // Check exact match first (shouldn't be needed now)
     if (COMMANDS[trimmed]) {
         return COMMANDS[trimmed].execute();
     }
