@@ -26,12 +26,12 @@ const terminal = {
     
     displayWelcome() {
         const welcome = `╔══════════════════════════════════════════════════════╗
-║                                                      ║
-║     Welcome to deletd.cc                             ║
-║                                                      ║
-║     Type 'help' to see available commands            ║
-║     Type 'cat about.txt' to learn more               ║
-║                                                      ║
+║                                                       ║
+║     Welcome to deletd.cc                              ║
+║                                                       ║
+║     Type 'help' to see available commands             ║
+║     Type 'cat about.txt' to learn more                ║
+║                                                       ║
 ╚══════════════════════════════════════════════════════╝
 
 Initializing system...

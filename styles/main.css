@@ -19,14 +19,12 @@ html {
 }
 
 body {
-    /* Use Courier Prime, fallback to system monospace fonts */
-    font-family: 'Courier Prime', 'Courier New', 'Courier', monospace;
+    font-family: 'Share Tech Mono', monospace;
     background: var(--bg-dark);
     color: var(--amber);
     overflow: hidden;
     height: 100vh;
     width: 100vw;
-    /* Remove letter-spacing override */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -46,8 +44,8 @@ body {
     padding: 20px;
     overflow-y: scroll;
     overflow-x: hidden;
-    font-size: 14px;
-    line-height: 1.6;
+    font-size: 18px;
+    line-height: 1.5;
     white-space: pre-wrap;
     scroll-behavior: auto;
     -webkit-overflow-scrolling: auto;
@@ -130,8 +128,8 @@ body {
     border: none;
     outline: none;
     color: var(--amber);
-    font-family: 'Courier Prime', 'Courier New', 'Courier', monospace;
-    font-size: 18px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 14px;
     caret-color: var(--amber);
 }
 
@@ -169,7 +167,7 @@ body {
 .ascii-art {
     color: var(--amber-dim);
     line-height: 1.2;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 /* Text selection styling */
@@ -186,11 +184,11 @@ body {
 /* Responsive */
 @media (max-width: 768px) {
     .terminal-body {
-        font-size: 16px;
+        font-size: 14px;
         padding: 15px;
     }
     
     #terminal-input {
-        font-size: 16px;
+        font-size: 14px;
     }
 }
