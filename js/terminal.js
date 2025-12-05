@@ -3,7 +3,7 @@ const terminal = {
     output: null,
     input: null,
     terminalBody: null,
-    isRoot: false, // Track root mode
+    isRoot: false,
     
     init() {
         this.output = document.getElementById('terminal-output');
@@ -26,12 +26,12 @@ const terminal = {
     
     displayWelcome() {
         const welcome = `╔══════════════════════════════════════════════════════╗
-║                                                                          ║
-║     Welcome to deletd.cc                                                 ║
-║                                                                          ║
-║     Type 'help' to see available commands                                ║
-║     Type 'cat about.txt' to learn more                                   ║
-║                                                                          ║
+║                                                                        ║
+║     Welcome to deletd.cc                                               ║
+║                                                                        ║
+║     Type 'help' to see available commands                              ║
+║     Type 'cat about.txt' to learn more                                 ║
+║                                                                        ║
 ╚══════════════════════════════════════════════════════╝
 
 Initializing system...
@@ -87,24 +87,19 @@ Ready.
     },
     
     executeCommand(command) {
-        // Display command with appropriate prompt
         const prompt = this.isRoot ? 'root@deletdcc:~#' : 'user@deletdcc:~$';
         const promptClass = this.isRoot ? 'command-line-root' : 'command-line';
         this.addOutput(`${prompt} ${command}`, promptClass);
         
-        // Add to history
         if (command.trim()) {
             addToHistory(command);
         }
         
-        // Clear input
         this.input.value = '';
         
-        // Process command
         if (command.trim()) {
             const result = processCommand(command.trim(), this);
             
-            // Handle special commands
             if (result === 'CLEAR') {
                 this.clearTerminal();
             } else if (result === 'ROOT_MODE') {
@@ -117,10 +112,7 @@ Ready.
             }
         }
         
-        // Update prompt display
         this.updatePrompt();
-        
-        // Instant scroll to bottom
         this.scrollToBottom();
     },
     
@@ -151,7 +143,14 @@ Ready.
     addOutput(text, className) {
         const div = document.createElement('div');
         div.className = className;
-        div.textContent = text;
+        
+        // Check if text contains HTML link markup
+        if (text.includes('<a ')) {
+            div.innerHTML = text;
+        } else {
+            div.textContent = text;
+        }
+        
         this.output.appendChild(div);
     },
     
@@ -172,7 +171,7 @@ Ready.
             'cat about.txt',
             'cat skills.txt',
             'cat contact.txt',
-            'ls projects/',
+            'cat projects.txt',
             'sudo -i',
             'exit'
         ];
