@@ -2,6 +2,8 @@
     --amber: #ffb000;
     --amber-glow: #ff8c00;
     --amber-dim: #cc8800;
+    --red: #ff4444;
+    --red-glow: #ff0000;
     --bg-dark: #0a0a0a;
     --terminal-bg: #0d0d0d;
 }
@@ -44,7 +46,6 @@ body {
     line-height: 1.6;
     white-space: pre-wrap;
     scroll-behavior: auto;
-    /* Disable smooth scrolling completely */
     -webkit-overflow-scrolling: auto;
 }
 
@@ -81,6 +82,22 @@ body {
     margin: 10px 0 5px 0;
 }
 
+/* Root mode styles */
+.output-line-root {
+    color: var(--red);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.command-line-root {
+    color: var(--red-glow);
+    margin: 10px 0 5px 0;
+}
+
+.prompt-root {
+    color: var(--red-glow) !important;
+}
+
 .error {
     color: #ff6b6b;
     text-shadow: 0 0 5px #ff0000;
@@ -111,6 +128,12 @@ body {
     font-family: 'VT323', monospace;
     font-size: 20px;
     caret-color: var(--amber);
+}
+
+/* Root mode input */
+.prompt-root ~ #terminal-input {
+    color: var(--red);
+    caret-color: var(--red);
 }
 
 .directory-item {

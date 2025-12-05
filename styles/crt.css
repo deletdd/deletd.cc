@@ -40,7 +40,7 @@
     pointer-events: none;
 }
 
-/* Static text glow */
+/* Static text glow - amber */
 .output-line,
 .command-line,
 #terminal-input,
@@ -48,4 +48,19 @@
     text-shadow: 
         0 0 3px var(--amber-glow), 
         0 0 6px var(--amber-glow);
+}
+
+/* Static text glow - red (root mode) */
+.output-line-root,
+.command-line-root,
+.prompt-root {
+    text-shadow: 
+        0 0 3px var(--red-glow), 
+        0 0 6px var(--red-glow) !important;
+}
+
+.prompt-root ~ #terminal-input {
+    text-shadow: 
+        0 0 3px var(--red-glow), 
+        0 0 6px var(--red-glow);
 }

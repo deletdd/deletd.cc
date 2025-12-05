@@ -2,8 +2,8 @@
 const COMMANDS = {
     help: {
         description: 'Display available commands',
-        execute: () => {
-            return `Available commands:
+        execute: (args, terminal) => {
+            const baseCommands = `Available commands:
   help             - Show this help message
   ls [dir]         - List files and directories
   cat [file]       - Display file contents
@@ -12,6 +12,34 @@ const COMMANDS = {
   whoami           - Display current user
   date             - Show current date and time
   echo [text]      - Print text to terminal`;
+
+            if (terminal.isRoot) {
+                return baseCommands + `
+  exit             - Exit root shell
+
+Root commands:
+  apt update       - Update package lists (simulated)
+  systemctl        - Manage system services (simulated)
+  chmod            - Change file permissions (simulated)
+  useradd          - Add new user (simulated)`;
+            }
+            
+            return baseCommands;
+        }
+    },
+    
+    'sudo -i': {
+        description: 'Switch to root user',
+        execute: () => 'ROOT_MODE'
+    },
+    
+    exit: {
+        description: 'Exit root shell',
+        execute: (args, terminal) => {
+            if (terminal.isRoot) {
+                return 'EXIT_ROOT';
+            }
+            return 'bash: exit: not in a subshell';
         }
     },
     
@@ -71,7 +99,9 @@ Discord:  deletd`;
     
     whoami: {
         description: 'Display current user',
-        execute: () => 'user@deletdcc'
+        execute: (args, terminal) => {
+            return terminal.isRoot ? 'root' : 'user';
+        }
     },
     
     date: {
@@ -84,12 +114,71 @@ Discord:  deletd`;
         
     neofetch: {
         description: 'Display system information',
-        execute: () => {
-            return `┌────────┐     user@deletdcc
+        execute: (args, terminal) => {
+            const user = terminal.isRoot ? 'root@deletdcc' : 'user@deletdcc';
+            return `
+┌────────┐     ${user}
 │           │     -------------
 │       JS  │     OS: JavaScript
 └────────┘     Uptime: ${Math.floor(performance.now() / 1000)}s
                    Terminal: deletd.cc`;
+        }
+    }
+},
+    
+    // ROOT ONLY COMMANDS
+    'apt update': {
+        description: 'Update package lists',
+        execute: (args, terminal) => {
+            if (!terminal.isRoot) {
+                return 'E: Could not open lock file /var/lib/apt/lists/lock - open (13: Permission denied)';
+            }
+            return `Hit:1 http://archive.ubuntu.com/ubuntu jammy InRelease
+Get:2 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [119 kB]
+Get:3 http://archive.ubuntu.com/ubuntu jammy-security InRelease [110 kB]
+Fetched 229 kB in 1s (229 kB/s)
+Reading package lists... Done
+Building dependency tree... Done
+All packages are up to date.`;
+        }
+    },
+    
+    systemctl: {
+        description: 'Manage system services',
+        execute: (args, terminal) => {
+            if (!terminal.isRoot) {
+                return 'Failed to get D-Bus connection: Operation not permitted';
+            }
+            return `System services running:
+● ssh.service - OpenBSD Secure Shell server
+● nginx.service - A high performance web server
+● terminal.service - deletd.cc Terminal Portfolio`;
+        }
+    },
+    
+    chmod: {
+        description: 'Change file permissions',
+        execute: (args, terminal) => {
+            if (!terminal.isRoot) {
+                return 'chmod: changing permissions: Operation not permitted';
+            }
+            if (args.length < 2) {
+                return 'chmod: missing operand\nTry \'chmod MODE FILE\'';
+            }
+            return `Permissions changed: ${args.join(' ')}`;
+        }
+    },
+    
+    useradd: {
+        description: 'Add new user',
+        execute: (args, terminal) => {
+            if (!terminal.isRoot) {
+                return 'useradd: Permission denied.';
+            }
+            if (args.length === 0) {
+                return 'Usage: useradd [options] LOGIN';
+            }
+            return `User '${args[0]}' created successfully.`;
         }
     }
 };
@@ -146,7 +235,6 @@ function handleCat(args) {
 
 // Ls command handler
 function handleLs(args) {
-    // No arguments - list current directory
     if (args.length === 0) {
         return COMMANDS['ls'].execute();
     }
@@ -162,7 +250,7 @@ function handleLs(args) {
 }
 
 // Process command
-function processCommand(input) {
+function processCommand(input, terminal) {
     const trimmed = input.trim();
     const parts = trimmed.split(' ');
     const command = parts[0].toLowerCase();
@@ -183,14 +271,14 @@ function processCommand(input) {
         return handleEcho(args);
     }
     
-    // Check exact match first (shouldn't be needed now)
+    // Check exact match first (for sudo -i, ls projects/, etc)
     if (COMMANDS[trimmed]) {
-        return COMMANDS[trimmed].execute();
+        return COMMANDS[trimmed].execute(args, terminal);
     }
     
     // Check base command
     if (COMMANDS[command]) {
-        return COMMANDS[command].execute(args);
+        return COMMANDS[command].execute(args, terminal);
     }
     
     // Command not found

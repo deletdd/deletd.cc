@@ -3,6 +3,7 @@ const terminal = {
     output: null,
     input: null,
     terminalBody: null,
+    isRoot: false, // Track root mode
     
     init() {
         this.output = document.getElementById('terminal-output');
@@ -26,7 +27,7 @@ const terminal = {
     displayWelcome() {
         const welcome = `╔══════════════════════════════════════════════════════╗
 ║                                                                          ║
-║     Welcome to deletd.cc Terminal Portfolio                              ║
+║     Welcome to deletd.cc                                                 ║
 ║                                                                          ║
 ║     Type 'help' to see available commands                                ║
 ║     Type 'cat about.txt' to learn more                                   ║
@@ -41,27 +42,18 @@ Ready.
     },
     
     handleScroll(e) {
-        // Prevent default smooth scrolling
         e.preventDefault();
-        
-        // Calculate line height (font-size * line-height)
-        const lineHeight = 20 * 1.6; // 32px per line
-        
-        // Scroll by 3 lines at a time
+        const lineHeight = 20 * 1.6;
         const scrollAmount = lineHeight * 3;
         
-        // Determine scroll direction
         if (e.deltaY > 0) {
-            // Scroll down
             this.terminalBody.scrollTop += scrollAmount;
         } else {
-            // Scroll up
             this.terminalBody.scrollTop -= scrollAmount;
         }
     },
     
     handleKeyPress(e) {
-        // Enter key - execute command
         if (e.key === 'Enter') {
             e.preventDefault();
             const command = this.input.value;
@@ -69,7 +61,6 @@ Ready.
             return;
         }
         
-        // Up arrow - previous command
         if (e.key === 'ArrowUp') {
             e.preventDefault();
             const prevCommand = navigateHistory('up');
@@ -79,7 +70,6 @@ Ready.
             return;
         }
         
-        // Down arrow - next command
         if (e.key === 'ArrowDown') {
             e.preventDefault();
             const nextCommand = navigateHistory('down');
@@ -89,7 +79,6 @@ Ready.
             return;
         }
         
-        // Tab key - autocomplete
         if (e.key === 'Tab') {
             e.preventDefault();
             this.handleAutocomplete();
@@ -98,8 +87,10 @@ Ready.
     },
     
     executeCommand(command) {
-        // Display command
-        this.addOutput(`user@deletdcc:~$ ${command}`, 'command-line');
+        // Display command with appropriate prompt
+        const prompt = this.isRoot ? 'root@deletdcc:~#' : 'user@deletdcc:~$';
+        const promptClass = this.isRoot ? 'command-line-root' : 'command-line';
+        this.addOutput(`${prompt} ${command}`, promptClass);
         
         // Add to history
         if (command.trim()) {
@@ -111,18 +102,50 @@ Ready.
         
         // Process command
         if (command.trim()) {
-            const result = processCommand(command);
+            const result = processCommand(command.trim(), this);
             
             // Handle special commands
             if (result === 'CLEAR') {
                 this.clearTerminal();
+            } else if (result === 'ROOT_MODE') {
+                this.enableRootMode();
+            } else if (result === 'EXIT_ROOT') {
+                this.disableRootMode();
             } else {
-                this.addOutput(result, 'output-line');
+                const outputClass = this.isRoot ? 'output-line-root' : 'output-line';
+                this.addOutput(result, outputClass);
             }
         }
         
+        // Update prompt display
+        this.updatePrompt();
+        
         // Instant scroll to bottom
         this.scrollToBottom();
+    },
+    
+    enableRootMode() {
+        this.isRoot = true;
+        this.addOutput('[sudo] password for user: ********', 'output-line');
+        this.addOutput('Switching to root user...', 'output-line-root');
+        this.updatePrompt();
+    },
+    
+    disableRootMode() {
+        this.isRoot = false;
+        this.addOutput('Exiting root shell...', 'output-line');
+        this.updatePrompt();
+    },
+    
+    updatePrompt() {
+        const promptElement = document.querySelector('.prompt');
+        if (this.isRoot) {
+            promptElement.textContent = 'root@deletdcc:~#';
+            promptElement.classList.add('prompt-root');
+        } else {
+            promptElement.textContent = 'user@deletdcc:~$';
+            promptElement.classList.remove('prompt-root');
+        }
     },
     
     addOutput(text, className) {
@@ -137,7 +160,6 @@ Ready.
     },
     
     scrollToBottom() {
-        // Instant jump to bottom
         this.terminalBody.scrollTop = this.terminalBody.scrollHeight;
     },
     
@@ -145,13 +167,14 @@ Ready.
         const input = this.input.value.toLowerCase();
         if (!input) return;
         
-        // Get all possible commands including cat and ls variations
         const allCommands = [
             ...Object.keys(COMMANDS),
             'cat about.txt',
             'cat skills.txt',
             'cat contact.txt',
-            'ls projects/'
+            'ls projects/',
+            'sudo -i',
+            'exit'
         ];
         
         const matches = allCommands.filter(cmd => cmd.startsWith(input));
@@ -160,7 +183,9 @@ Ready.
             this.input.value = matches[0];
         } else if (matches.length > 1) {
             this.addOutput(matches.join('  '), 'output-line');
-            this.addOutput(`user@deletdcc:~$ ${input}`, 'command-line');
+            const prompt = this.isRoot ? 'root@deletdcc:~#' : 'user@deletdcc:~$';
+            const promptClass = this.isRoot ? 'command-line-root' : 'command-line';
+            this.addOutput(`${prompt} ${input}`, promptClass);
             this.scrollToBottom();
         }
     }
