@@ -46,17 +46,19 @@ Root commands:
     ls: {
         description: 'List directory contents',
         execute: () => {
-            return `projects/     about.txt     skills.txt    contact.txt`;
+            return `projects.txt     about.txt     skills.txt    contact.txt`;
         }
     },
     
-    'ls projects/': {
+    'cat projects.txt': {
         description: 'List projects',
         execute: () => {
-            return `deletd.cc
+            return `PROJECTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+deletd.cc
 Venture MC (mc-venture.com)
 
-Visit: github.com/deletdd`;
+APIs scare me so visit my GitHub for an updated list`;
         }
     },
     
