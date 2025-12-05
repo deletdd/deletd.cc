@@ -123,8 +123,7 @@ Discord:  deletd`;
 └────────┘     Uptime: ${Math.floor(performance.now() / 1000)}s
                    Terminal: deletd.cc`;
         }
-    }
-},
+    },
     
     // ROOT ONLY COMMANDS
     'apt update': {
@@ -152,7 +151,7 @@ All packages are up to date.`;
             return `System services running:
 ● ssh.service - OpenBSD Secure Shell server
 ● nginx.service - A high performance web server
-● terminal.service - deletd.cc Terminal Portfolio`;
+● terminal.service - deletd.cc`;
         }
     },
     
