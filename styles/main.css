@@ -13,7 +13,7 @@
 }
 
 html {
-    scroll-behavior: auto; /* Disable smooth scrolling */
+    scroll-behavior: auto;
 }
 
 body {
@@ -38,12 +38,14 @@ body {
 .terminal-body {
     flex: 1;
     padding: 20px;
-    overflow-y: auto;
+    overflow-y: scroll;
     overflow-x: hidden;
     font-size: 20px;
     line-height: 1.6;
     white-space: pre-wrap;
-    scroll-behavior: auto; /* Instant scroll for terminal feel */
+    scroll-behavior: auto;
+    /* Disable smooth scrolling completely */
+    -webkit-overflow-scrolling: auto;
 }
 
 /* Optimized scrollbar */

@@ -6,19 +6,12 @@ const COMMANDS = {
             return `Available commands:
   help             - Show this help message
   ls               - List files and directories
-  ls projects/     - List GitHub repositories
-  cat <file>       - Display file contents
+  cat [file]       - Display file contents
   clear            - Clear the terminal
   neofetch         - Display system information
   whoami           - Display current user
   date             - Show current date and time
-  echo [text]      - Print text to terminal
-  history          - Show command history
-
-Available files:
-  about.txt        - Information about me
-  skills.txt       - Technical skills
-  contact.txt      - Contact information`;
+  echo [text]      - Print text to terminal`;
         }
     },
     
@@ -88,17 +81,7 @@ Discord:  deletd`;
             return now.toString();
         }
     },
-    
-    history: {
-        description: 'Show command history',
-        execute: () => {
-            const history = getCommandHistory();
-            return history.length > 0 
-                ? history.map((cmd, i) => `  ${i + 1}  ${cmd}`).join('\n')
-                : 'No commands in history.';
-        }
-    },
-    
+        
     neofetch: {
         description: 'Display system information',
         execute: () => {

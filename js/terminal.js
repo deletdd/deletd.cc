@@ -2,10 +2,12 @@
 const terminal = {
     output: null,
     input: null,
+    terminalBody: null,
     
     init() {
         this.output = document.getElementById('terminal-output');
         this.input = document.getElementById('terminal-input');
+        this.terminalBody = document.querySelector('.terminal-body');
         
         // Welcome message
         this.displayWelcome();
@@ -13,20 +15,22 @@ const terminal = {
         // Event listeners
         this.input.addEventListener('keydown', (e) => this.handleKeyPress(e));
         
+        // Add custom scroll behavior for line-by-line scrolling
+        this.terminalBody.addEventListener('wheel', (e) => this.handleScroll(e), { passive: false });
+        
         // Focus management
         document.addEventListener('click', () => this.input.focus());
         this.input.focus();
     },
     
     displayWelcome() {
-        // Properly aligned welcome message (56 chars wide)
         const welcome = `╔══════════════════════════════════════════════════════╗
-║                                                      ║
-║     Welcome to deletd.cc Terminal Portfolio         ║
-║                                                      ║
-║     Type 'help' to see available commands           ║
-║     Type 'cat about.txt' to learn more              ║
-║                                                      ║
+║                                                                          ║
+║     Welcome to deletd.cc Terminal Portfolio                              ║
+║                                                                          ║
+║     Type 'help' to see available commands                                ║
+║     Type 'cat about.txt' to learn more                                   ║
+║                                                                          ║
 ╚══════════════════════════════════════════════════════╝
 
 Initializing system...
@@ -34,6 +38,26 @@ Loading configuration...
 Ready.
 `;
         this.addOutput(welcome, 'output-line');
+    },
+    
+    handleScroll(e) {
+        // Prevent default smooth scrolling
+        e.preventDefault();
+        
+        // Calculate line height (font-size * line-height)
+        const lineHeight = 20 * 1.6; // 32px per line
+        
+        // Scroll by 3 lines at a time
+        const scrollAmount = lineHeight * 3;
+        
+        // Determine scroll direction
+        if (e.deltaY > 0) {
+            // Scroll down
+            this.terminalBody.scrollTop += scrollAmount;
+        } else {
+            // Scroll up
+            this.terminalBody.scrollTop -= scrollAmount;
+        }
     },
     
     handleKeyPress(e) {
@@ -97,7 +121,7 @@ Ready.
             }
         }
         
-        // Instant scroll to bottom (no smooth scroll)
+        // Instant scroll to bottom
         this.scrollToBottom();
     },
     
@@ -113,9 +137,8 @@ Ready.
     },
     
     scrollToBottom() {
-        const terminalBody = document.querySelector('.terminal-body');
-        // Force instant scroll without smoothing
-        terminalBody.scrollTop = terminalBody.scrollHeight;
+        // Instant jump to bottom
+        this.terminalBody.scrollTop = this.terminalBody.scrollHeight;
     },
     
     handleAutocomplete() {
