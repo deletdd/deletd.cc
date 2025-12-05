@@ -19,12 +19,15 @@ const terminal = {
     },
     
     displayWelcome() {
-        const welcome = `╔════════════════════════════════════════════════════════╗
-║  Welcome to deletd.cc Terminal Portfolio              ║
-║                                                        ║
-║  Type 'help' to see available commands                ║
-║  Type 'cat about.txt' to learn more                   ║
-╚════════════════════════════════════════════════════════╝
+        // Properly aligned welcome message (56 chars wide)
+        const welcome = `╔══════════════════════════════════════════════════════╗
+║                                                      ║
+║     Welcome to deletd.cc Terminal Portfolio         ║
+║                                                      ║
+║     Type 'help' to see available commands           ║
+║     Type 'cat about.txt' to learn more              ║
+║                                                      ║
+╚══════════════════════════════════════════════════════╝
 
 Initializing system...
 Loading configuration...
@@ -94,7 +97,7 @@ Ready.
             }
         }
         
-        // Scroll to bottom
+        // Instant scroll to bottom (no smooth scroll)
         this.scrollToBottom();
     },
     
@@ -111,6 +114,7 @@ Ready.
     
     scrollToBottom() {
         const terminalBody = document.querySelector('.terminal-body');
+        // Force instant scroll without smoothing
         terminalBody.scrollTop = terminalBody.scrollHeight;
     },
     

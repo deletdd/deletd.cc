@@ -27,7 +27,7 @@
     white-space: pre-wrap;
 }
 
-/* Vignette edge darkening - STATIC */
+/* Vignette edge darkening */
 .crt::after {
     content: "";
     position: fixed;
@@ -45,7 +45,7 @@
     );
 }
 
-/* Static scanlines - NO ANIMATION */
+/* Static scanlines */
 .crt::before {
     content: "";
     position: fixed;
@@ -64,25 +64,7 @@
     pointer-events: none;
 }
 
-/* CRT Overlay - static */
-.crt-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 176, 0, 0.015);
-    pointer-events: none;
-    z-index: 2;
-    mix-blend-mode: overlay;
-}
-
-/* Remove moving scanline completely */
-.scanline {
-    display: none;
-}
-
-/* Static text glow - NO ANIMATION */
+/* Static text glow */
 .output-line,
 .command-line,
 #terminal-input,

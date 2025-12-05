@@ -12,6 +12,10 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: auto; /* Disable smooth scrolling */
+}
+
 body {
     font-family: 'VT323', monospace;
     background: var(--bg-dark);
@@ -39,6 +43,7 @@ body {
     font-size: 20px;
     line-height: 1.6;
     white-space: pre-wrap;
+    scroll-behavior: auto; /* Instant scroll for terminal feel */
 }
 
 /* Optimized scrollbar */
@@ -104,11 +109,6 @@ body {
     font-family: 'VT323', monospace;
     font-size: 20px;
     caret-color: var(--amber);
-}
-
-/* Hide the custom cursor - use native caret */
-.cursor {
-    display: none;
 }
 
 .directory-item {
