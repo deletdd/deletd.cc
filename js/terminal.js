@@ -2,21 +2,16 @@
 const terminal = {
     output: null,
     input: null,
-    cursor: null,
     
     init() {
         this.output = document.getElementById('terminal-output');
         this.input = document.getElementById('terminal-input');
-        this.cursor = document.querySelector('.cursor');
         
         // Welcome message
         this.displayWelcome();
         
         // Event listeners
         this.input.addEventListener('keydown', (e) => this.handleKeyPress(e));
-        
-        // Remove input event listener that was causing lag
-        // Only update cursor on actual typing, not every input event
         
         // Focus management
         document.addEventListener('click', () => this.input.focus());
@@ -25,12 +20,10 @@ const terminal = {
     
     displayWelcome() {
         const welcome = `╔════════════════════════════════════════════════════════╗
+║  Welcome to deletd.cc Terminal Portfolio              ║
 ║                                                        ║
-║     Welcome to deletd.cc Terminal Portfolio           ║
-║                                                        ║
-║     Type 'help' to see available commands             ║
-║     Type 'cat about.txt' to learn more                ║
-║                                                        ║
+║  Type 'help' to see available commands                ║
+║  Type 'cat about.txt' to learn more                   ║
 ╚════════════════════════════════════════════════════════╝
 
 Initializing system...
@@ -69,7 +62,7 @@ Ready.
             return;
         }
         
-        // Tab key - autocomplete (basic)
+        // Tab key - autocomplete
         if (e.key === 'Tab') {
             e.preventDefault();
             this.handleAutocomplete();
@@ -78,7 +71,7 @@ Ready.
     },
     
     executeCommand(command) {
-        // Display command with glow
+        // Display command
         this.addOutput(`user@deletdcc:~$ ${command}`, 'command-line');
         
         // Add to history
@@ -101,20 +94,15 @@ Ready.
             }
         }
         
-        // Scroll to bottom - use requestAnimationFrame for smooth scroll
-        requestAnimationFrame(() => this.scrollToBottom());
+        // Scroll to bottom
+        this.scrollToBottom();
     },
     
     addOutput(text, className) {
-        const pre = document.createElement('pre');
-        pre.className = className;
-        pre.style.margin = '5px 0';
-        pre.style.fontFamily = 'inherit';
-        pre.style.fontSize = 'inherit';
-        pre.style.whiteSpace = 'pre-wrap';
-        pre.style.wordWrap = 'break-word';
-        pre.textContent = text;
-        this.output.appendChild(pre);
+        const div = document.createElement('div');
+        div.className = className;
+        div.textContent = text;
+        this.output.appendChild(div);
     },
     
     clearTerminal() {
@@ -130,17 +118,23 @@ Ready.
         const input = this.input.value.toLowerCase();
         if (!input) return;
         
-        // Find matching commands
-        const matches = Object.keys(COMMANDS).filter(cmd => 
-            cmd.startsWith(input)
-        );
+        // Get all possible commands including cat and ls variations
+        const allCommands = [
+            ...Object.keys(COMMANDS),
+            'cat about.txt',
+            'cat skills.txt',
+            'cat contact.txt',
+            'ls projects/'
+        ];
+        
+        const matches = allCommands.filter(cmd => cmd.startsWith(input));
         
         if (matches.length === 1) {
             this.input.value = matches[0];
         } else if (matches.length > 1) {
-            this.addOutput('\n' + matches.join('  '), 'output-line');
+            this.addOutput(matches.join('  '), 'output-line');
             this.addOutput(`user@deletdcc:~$ ${input}`, 'command-line');
-            requestAnimationFrame(() => this.scrollToBottom());
+            this.scrollToBottom();
         }
     }
 };

@@ -3,127 +3,71 @@ const COMMANDS = {
     help: {
         description: 'Display available commands',
         execute: () => {
-            return `
-Available commands:
-  help          - Show this help message
-  about         - Learn about me
-  cat about.txt - View detailed information (redirects to guns.lol)
-  ls            - List files and directories
-  ls projects/  - List my GitHub repositories
-  projects      - Quick view of my projects
-  skills        - View my technical skills
-  contact       - Get my contact information
-  clear         - Clear the terminal
-  neofetch      - Display system information
-  whoami        - Display current user
-  date          - Show current date and time
-  echo [text]   - Print text to terminal
-  history       - Show command history
-`;
-        }
-    },
-    
-    about: {
-        description: 'Information about me',
-        execute: () => {
-            return `
-╔════════════════════════════════════════╗
-║           ABOUT DELETD.CC              ║
-╚════════════════════════════════════════╝
+            return `Available commands:
+  help             - Show this help message
+  ls               - List files and directories
+  ls projects/     - List GitHub repositories
+  cat <file>       - Display file contents
+  clear            - Clear the terminal
+  neofetch         - Display system information
+  whoami           - Display current user
+  date             - Show current date and time
+  echo [text]      - Print text to terminal
+  history          - Show command history
 
-Welcome to my digital space. I'm a developer passionate 
-about building innovative solutions and exploring the 
-boundaries of technology.
-
-Type 'cat about.txt' for more details or 'skills' to 
-see my technical expertise.
-`;
-        }
-    },
-    
-    'cat about.txt': {
-        description: 'Read about file (redirects to guns.lol)',
-        execute: () => {
-            window.open('https://guns.lol', '/deletd');
-            return 'Opening guns.lol...';
+Available files:
+  about.txt        - Information about me
+  skills.txt       - Technical skills
+  contact.txt      - Contact information`;
         }
     },
     
     ls: {
         description: 'List directory contents',
         execute: () => {
-            return `
-projects/     about.txt     skills.txt    contact.txt
-README.md
-`;
+            return `projects/     about.txt     skills.txt    contact.txt`;
         }
     },
     
     'ls projects/': {
         description: 'List GitHub repositories',
         execute: () => {
-            return `
-Fetching repositories from GitHub...
+            return `deletd.cc/       [Add your other repos here]
 
-[Loading GitHub projects - This would query your actual repos]
-
-Tip: Use 'projects' for a quick overview or implement GitHub API
-`;
+Visit: github.com/deletdd`;
         }
     },
     
-    projects: {
-        description: 'View my projects',
+    'cat about.txt': {
+        description: 'Read about file',
         execute: () => {
-            return `
-╔════════════════════════════════════════╗
-║           MY PROJECTS                  ║
-╚════════════════════════════════════════╝
-
-→ deletd.cc Terminal Portfolio
-  A terminal-style portfolio showcasing technical skills
-
-→ [Project #1]
-  Description of project
-
-→ [Project #2]
-  Description of project
-
-Visit my GitHub for more: github.com/deletdd
-`;
+            window.open('https://guns.lol/deletd', '_blank');
+            return 'Redirecting to guns.lol/deletd...';
         }
     },
     
-    skills: {
+    'cat skills.txt': {
         description: 'Display technical skills',
         execute: () => {
-            return `
-╔════════════════════════════════════════╗
-║        TECHNICAL SKILLS                ║
-╚════════════════════════════════════════╝
+            return `TECHNICAL SKILLS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Languages:       JavaScript, Python, HTML/CSS, Java
 Frameworks:      React, Node.js
 Tools:           Git, Docker
-Specialties:     Web Development, CLI Tools, PaperMC Plugins
-
-Type 'projects' to see these skills in action.
-`;
+Specialties:     Web Development, CLI Tools, PaperMC Plugins`;
         }
     },
     
-    contact: {
+    'cat contact.txt': {
         description: 'Show contact information',
         execute: () => {
-            return `
-╔════════════════════════════════════════╗
-║         CONTACT INFO                   ║
-╚════════════════════════════════════════╝
+            return `CONTACT INFORMATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Email:    deletd@duck.com
 GitHub:   github.com/deletdd
-Discord:  deletd
-`;
+Discord:  deletd`;
         }
     },
     
@@ -158,16 +102,14 @@ Discord:  deletd
     neofetch: {
         description: 'Display system information',
         execute: () => {
-            return `
-    ___           user@deletdcc
+            return `    ___           user@deletdcc
    (.. |          ─────────────────
    (<> |          OS: Web Terminal
-  / __  \\        Shell: JavaScript CLI
- ( /  \\ /|       Terminal: deletd.cc
-_/\\ __)/_)       Uptime: ${Math.floor(performance.now() / 1000)}s
-\\/-____\\/       Theme: Amber CRT
-                  Font: VT323
-`;
+  / __  \\         Shell: JavaScript CLI
+ ( /  \\ /|        Terminal: deletd.cc
+_/\\ __)/_)        Uptime: ${Math.floor(performance.now() / 1000)}s
+\\/-____\\/         Theme: Amber CRT
+                  Font: VT323`;
         }
     }
 };
@@ -206,6 +148,22 @@ function handleEcho(args) {
     return args.join(' ');
 }
 
+// Cat command handler
+function handleCat(args) {
+    if (args.length === 0) {
+        return 'cat: missing file operand\nTry \'cat <filename>\'';
+    }
+    
+    const filename = args[0];
+    const catCommand = `cat ${filename}`;
+    
+    if (COMMANDS[catCommand]) {
+        return COMMANDS[catCommand].execute();
+    }
+    
+    return `cat: ${filename}: No such file or directory`;
+}
+
 // Process command
 function processCommand(input) {
     const trimmed = input.trim();
@@ -213,12 +171,17 @@ function processCommand(input) {
     const command = parts[0].toLowerCase();
     const args = parts.slice(1);
     
-    // Special case for echo
+    // Handle cat separately
+    if (command === 'cat') {
+        return handleCat(args);
+    }
+    
+    // Handle echo
     if (command === 'echo') {
         return handleEcho(args);
     }
     
-    // Check exact match first
+    // Check exact match first (for ls projects/)
     if (COMMANDS[trimmed]) {
         return COMMANDS[trimmed].execute();
     }
@@ -229,5 +192,5 @@ function processCommand(input) {
     }
     
     // Command not found
-    return `bash: ${command}: command not found\nType 'help' for available commands.`;
+    return `bash: ${command}: command not found`;
 }

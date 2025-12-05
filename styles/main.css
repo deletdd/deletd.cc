@@ -39,10 +39,6 @@ body {
     font-size: 20px;
     line-height: 1.6;
     white-space: pre-wrap;
-    /* Performance optimizations */
-    -webkit-overflow-scrolling: touch;
-    backface-visibility: hidden;
-    perspective: 1000px;
 }
 
 /* Optimized scrollbar */
@@ -68,7 +64,6 @@ body {
 }
 
 .output-line {
-    margin: 5px 0;
     color: var(--amber);
     white-space: pre-wrap;
     word-wrap: break-word;
@@ -109,17 +104,11 @@ body {
     font-family: 'VT323', monospace;
     font-size: 20px;
     caret-color: var(--amber);
-    /* Remove animations from input for better typing performance */
 }
 
+/* Hide the custom cursor - use native caret */
 .cursor {
-    animation: blink 1s step-end infinite;
-    color: var(--amber);
-}
-
-@keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
+    display: none;
 }
 
 .directory-item {
