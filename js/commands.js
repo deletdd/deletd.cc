@@ -85,14 +85,11 @@ Discord:  deletd`;
     neofetch: {
         description: 'Display system information',
         execute: () => {
-            return `    ___           user@deletdcc
-   (.. |          ─────────────────
-   (<> |          OS: Web Terminal
-  / __  \\         Shell: JavaScript CLI
- ( /  \\ /|        Terminal: deletd.cc
-_/\\ __)/_)        Uptime: ${Math.floor(performance.now() / 1000)}s
-\\/-____\\/         Theme: Amber CRT
-                  Font: VT323`;
+            return `┌────────┐     user@deletdcc
+│           │     -------------
+│       JS  │     OS: JavaScript
+└────────┘     Terminal: deletd.cc
+                   Uptime: ${Math.floor(performance.now() / 1000)}s`;
         }
     }
 };
