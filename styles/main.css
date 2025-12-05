@@ -25,6 +25,10 @@ body {
     overflow: hidden;
     height: 100vh;
     width: 100vw;
+    /* Force consistent spacing across platforms */
+    letter-spacing: 0.05em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .terminal-container {
@@ -47,6 +51,8 @@ body {
     white-space: pre-wrap;
     scroll-behavior: auto;
     -webkit-overflow-scrolling: auto;
+    /* Ensure consistent rendering */
+    font-variant-ligatures: none;
 }
 
 /* Optimized scrollbar */
@@ -148,10 +154,17 @@ body {
     color: var(--amber);
 }
 
+/* Clickable link styles */
 .link {
     color: #74c0fc;
     text-decoration: underline;
     cursor: pointer;
+    text-shadow: 0 0 3px rgba(116, 192, 252, 0.5);
+}
+
+.link:hover {
+    color: #a5d8ff;
+    text-shadow: 0 0 5px rgba(116, 192, 252, 0.8);
 }
 
 .ascii-art {

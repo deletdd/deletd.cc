@@ -58,7 +58,7 @@ Root commands:
 deletd.cc
 Venture MC (mc-venture.com)
 
-APIs scare me so visit my GitHub for an updated list`;
+APIs scare me so <a class="link" href="https://github.com/deletdd" target="_blank">visit my GitHub</a> for an updated list`;
         }
     },
     
