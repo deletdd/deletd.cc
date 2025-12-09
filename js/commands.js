@@ -89,7 +89,7 @@ Specialties:     Web Development, PaperMC Plugins`;
             return `CONTACT INFORMATION
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Email:    deletd@duck.com
+Email:    contact@deletd.cc
 GitHub:   github.com/deletdd
 Discord:  deletd`;
         }
