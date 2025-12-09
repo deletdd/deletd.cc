@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="2048" height="2048"><svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="2048" height="2048">
+	<style>
+		.s0 { fill: #000000 } 
+		.s1 { fill: #ffffff } 
+	</style>
+	<path id="SvgjsPath1044" fill-rule="evenodd" class="s0" d="m66 32h380c27.61 0 50 22.39 50 50v348c0 27.61-22.39 50-50 50h-380c-27.61 0-50-22.39-50-50v-348c0-27.61 22.39-50 50-50z"></path>
+	<path id="SvgjsPath1043" fill-rule="evenodd" class="s1" d="m192 224h64c8.84 0 16 7.16 16 16 0 8.84-7.16 16-16 16h-64c-8.84 0-16-7.16-16-16 0-8.84 7.16-16 16-16z"></path>
+	<path id="SvgjsPath1042" class="s1" d="m186.55 161.99c6.56 5.45 6.56 14.32 0 19.77l-83.89 69.85c-6.55 5.46-17.19 5.46-23.75 0-6.55-5.45-6.55-14.31 0-19.77l72.04-59.99-71.99-59.98c-6.55-5.46-6.55-14.32 0-19.78 6.56-5.46 17.2-5.46 23.76 0 0 0 83.88 69.85 83.83 69.9z"></path>
+</svg><style>@media (prefers-color-scheme: light) { :root { filter: none; } }
+@media (prefers-color-scheme: dark) { :root { filter: invert(100%); } }
+</style></svg>
